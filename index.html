@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Әзірлеушіге арналған ЖИ-құралдары | AI Tools for Devs</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, 'Segoe UI', 'Inter', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(145deg, #f6f9fc 0%, #eef2f5 100%);
+            color: #1a2c3e;
+            line-height: 1.6;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.6);
+            border-radius: 3rem;
+            backdrop-filter: blur(2px);
+            padding: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0b2b3b, #1e6f5c);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            margin-bottom: 0.75rem;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .subhead {
+            text-align: center;
+            color: #2c5a6e;
+            border-bottom: 2px solid #cbdde6;
+            display: inline-block;
+            margin: 0 auto 2rem;
+            padding-bottom: 0.6rem;
+            font-weight: 500;
+            animation: fadeInUp 0.5s ease-out 0.1s both;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2.5rem 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 2rem;
+            padding: 1.6rem;
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(70,147,127,0.2);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(106, 191, 158, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 40px -15px rgba(0,0,0,0.2);
+            border-color: rgba(106, 191, 158, 0.4);
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.1);
+        }
+
+        .card h2 {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+            color: #1c4e5c;
+            transition: color 0.3s;
+        }
+
+        .card:hover h2 {
+            color: #1e6f5c;
+        }
+
+        .short-desc {
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            padding-left: 0.7rem;
+            border-left: 3px solid #6abf9e;
+        }
+
+        .capabilities {
+            background: #f0f7f4;
+            padding: 0.9rem;
+            border-radius: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .card:hover .capabilities {
+            background: #e8f3ef;
+            transform: translateX(4px);
+        }
+
+        .capabilities strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1c4e5c;
+        }
+
+        ul {
+            padding-left: 1.2rem;
+        }
+
+        li {
+            margin-bottom: 0.3rem;
+            color: #2c5a6e;
+            transition: transform 0.2s;
+        }
+
+        li:hover {
+            transform: translateX(4px);
+            color: #1e6f5c;
+        }
+
+        .btn-link {
+            margin-top: auto;
+            padding: 0.7rem 1rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            background: #eef3f0;
+            color: #1a6e5c;
+            font-weight: 600;
+            text-align: center;
+            border: 1px solid #c2dfd3;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-link::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(30, 111, 92, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.4s, height 0.4s;
+        }
+
+        .btn-link:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-link:hover {
+            background: #1e6f5c;
+            color: white;
+            border-color: #1e6f5c;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 111, 92, 0.3);
+        }
+
+        .experience-section {
+            margin-top: 3rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 2rem;
+            box-shadow: 0 10px 20px -8px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            animation: slideInLeft 0.5s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+
+        .experience-section:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.1);
+        }
+
+        .experience-section h2 {
+            margin-bottom: 1rem;
+            color: #1c4e5c;
+            font-size: 1.8rem;
+        }
+
+        .experience-section p {
+            margin-bottom: 1rem;
+            padding-left: 0.8rem;
+            border-left: 3px solid #6abf9e;
+            transition: transform 0.2s;
+        }
+
+        .experience-section p:hover {
+            transform: translateX(5px);
+            border-left-color: #1e6f5c;
+        }
+
+        .highlight {
+            background: #e1f0ea;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            color: #1a6e5c;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .highlight:hover {
+            background: #1e6f5c;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #6e8f8a;
+            padding-top: 1rem;
+            border-top: 1px solid #cbdde6;
+            transition: color 0.3s;
+        }
+
+        footer:hover {
+            color: #1e6f5c;
+        }
+
+        /* Анимациялар */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Мобильді құрылғыларға арналған */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+                border-radius: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subhead {
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
+            }
+            
+            .cards-grid {
+                gap: 1rem;
+                margin: 1.5rem 0;
+                grid-template-columns: 1fr;
+            }
+            
+            .card {
+                padding: 1.2rem;
+            }
+            
+            .card h2 {
+                font-size: 1.3rem;
+            }
+            
+            .experience-section {
+                padding: 1.2rem;
+            }
+            
+            .experience-section h2 {
+                font-size: 1.4rem;
+            }
+            
+            .btn-link {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Планшеттерге арналған */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .cards-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+
+        /* Үлкен экрандарға арналған */
+        @media (min-width: 1440px) {
+            .container {
+                max-width: 1400px;
+            }
+            
+            .cards-grid {
+                gap: 2.5rem;
+            }
+            
+            h1 {
+                font-size: 3rem;
+            }
+            
+            .card {
+                padding: 2rem;
+            }
+        }
+
+        /* Скроллбар стилі */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #eef2f5;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #6abf9e;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #1e6f5c;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>🧠 Әзірлеушіге арналған ЖИ-құралдары</h1>
+
+    <div style="text-align:center;">
+        <div class="subhead">⚡ Кодтау, генерация, талдау — интеллект көмекшілері</div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="cards-grid">
+
+        <!-- Copilot -->
+        <div class="card">
+            <div class="card-icon">🤖⚡</div>
+            <h2>GitHub Copilot</h2>
+
+            <div class="short-desc">
+                GitHub Copilot — код жазуға көмектесетін жасанды интеллект көмекшісі. Ол нақты уақытта ұсыныстар беріп, бағдарламалау процесін жылдамдатады.
+            </div>
+
+            <div class="capabilities">
+                <strong>Не істейді:</strong>
+                <ul>
+                    <li>Код генерациялау</li>
+                    <li>Функцияларды толықтыру</li>
+                    <li>Тесттер жазу</li>
+                    <li>Қайталанатын кодты азайту</li>
+                </ul>
+            </div>
+
+            <a class="btn-link" href="https://github.com/features/copilot" target="_blank">Ресми сайт</a>
+        </div>
+
+        <!-- ChatGPT -->
+        <div class="card">
+            <div class="card-icon">💬🧠</div>
+            <h2>ChatGPT</h2>
+
+            <div class="short-desc">
+                ChatGPT — әмбебап жасанды интеллект ассистенті. Ол код жазу, түсіндіру және қателерді түзету үшін кеңінен қолданылады.
+            </div>
+
+            <div class="capabilities">
+                <strong>Не істейді:</strong>
+                <ul>
+                    <li>Код жазу және түсіндіру</li>
+                    <li>Багтарды табу</li>
+                    <li>Алгоритмдерді оңтайландыру</li>
+                    <li>API және скрипттер жасау</li>
+                </ul>
+            </div>
+
+            <a class="btn-link" href="https://chat.openai.com" target="_blank">Ресми сайт</a>
+        </div>
+
+        <!-- Claude -->
+        <div class="card">
+            <div class="card-icon">📘🧬</div>
+            <h2>Claude</h2>
+
+            <div class="short-desc">
+                Claude — ұзақ контекстті жақсы түсінетін жасанды интеллект. Ол күрделі кодтық жобаларды талдауға бейім.
+            </div>
+
+            <div class="capabilities">
+                <strong>Не істейді:</strong>
+                <ul>
+                    <li>Үлкен кодты талдау</li>
+                    <li>Рефакторинг жасау</li>
+                    <li>Құжаттама жазу</li>
+                    <li>Логиканы түсіндіру</li>
+                </ul>
+            </div>
+
+            <a class="btn-link" href="https://claude.ai" target="_blank">Ресми сайт</a>
+        </div>
+
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="experience-section">
+        <h2>📘 Менің тәжірибем</h2>
+
+        <p>
+            <span class="highlight">GitHub Copilot</span> — менің код жазу жылдамдығымды айтарлықтай арттырды және қайталанатын жұмыстарды азайтты.
+        </p>
+
+        <p>
+            <span class="highlight">ChatGPT</span> — күрделі тапсырмаларды түсінуге, багтарды түзетуге және жаңа идеялар алуға көмектесті.
+        </p>
+
+        <p>
+            <span class="highlight">Claude</span> — үлкен жобаларды талдауда және код құрылымын жақсартуда өте пайдалы болды.
+        </p>
+
+    </div>
+
+    <footer>
+        ⚙️ 2025 AI Tools for Developers
+    </footer>
+
+</div>
+</body>
+</html>
