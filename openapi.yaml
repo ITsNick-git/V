@@ -1,0 +1,213 @@
+openapi: 3.0.3
+
+info:
+  title: Banking API
+  description: REST API для банк жүйесі
+  version: 1.0.0
+
+servers:
+  - url: https://api.example.com
+
+paths:
+
+  /login:
+    post:
+      summary: Қолданушыны жүйеге енгізу
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Сәтті авторизация
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Қате логин немесе пароль
+
+  /accounts/{accountId}/balance:
+    get:
+      summary: Шот балансын алу
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Шот балансы
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+        '404':
+          description: Шот табылмады
+
+  /transfers:
+    post:
+      summary: Ақша аудару
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferRequest'
+      responses:
+        '201':
+          description: Аударым сәтті орындалды
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferResponse'
+        '400':
+          description: Қате деректер немесе қаражат жеткіліксіз
+
+  /accounts/{accountId}/transactions:
+    get:
+      summary: Шот операцияларын алу
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Операциялар тізімі
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+
+  /customers/{customerId}:
+    get:
+      summary: Клиент туралы ақпаратты алу
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Клиент ақпараты
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Клиент табылмады
+
+components:
+
+  schemas:
+
+    LoginRequest:
+      type: object
+      required:
+        - userId
+        - password
+      properties:
+        userId:
+          type: string
+          example: user123
+        password:
+          type: string
+          format: password
+          example: password123
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiJ9
+        message:
+          type: string
+          example: Login successful
+
+    BalanceResponse:
+      type: object
+      properties:
+        accountId:
+          type: integer
+          example: 1001
+        balance:
+          type: number
+          format: double
+          example: 250000.50
+        currency:
+          type: string
+          example: KZT
+
+    TransferRequest:
+      type: object
+      required:
+        - sourceAccount
+        - destinationAccount
+        - amount
+      properties:
+        sourceAccount:
+          type: integer
+          example: 1001
+        destinationAccount:
+          type: integer
+          example: 1002
+        amount:
+          type: number
+          format: double
+          example: 50000
+
+    TransferResponse:
+      type: object
+      properties:
+        transactionId:
+          type: integer
+          example: 50001
+        status:
+          type: string
+          example: completed
+        message:
+          type: string
+          example: Transfer successful
+
+    Transaction:
+      type: object
+      properties:
+        transactionId:
+          type: integer
+          example: 50001
+        type:
+          type: string
+          example: transfer
+        amount:
+          type: number
+          format: double
+          example: 50000
+        date:
+          type: string
+          format: date-time
+
+    Customer:
+      type: object
+      properties:
+        customerId:
+          type: integer
+          example: 101
+        name:
+          type: string
+          example: Ivan Petrov
+        email:
+          type: string
+          format: email
+          example: ivan@example.com
+        phone:
+          type: string
+          example: "+77001234567"
